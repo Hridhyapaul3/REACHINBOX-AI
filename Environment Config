@@ -1,0 +1,10 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+export const env = {
+  PORT: process.env.PORT || 5000,
+  DATABASE_URL: process.env.DATABASE_URL!,
+  REDIS_URL: process.env.REDIS_URL!,
+  MAX_EMAILS_PER_HOUR: Number(process.env.MAX_EMAILS_PER_HOUR || 200),
+  MIN_DELAY_MS: Number(process.env.MIN_DELAY_MS || 2000),
+};
