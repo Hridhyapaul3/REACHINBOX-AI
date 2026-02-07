@@ -1,0 +1,25 @@
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm";
+
+@Entity()
+export class EmailJob {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Column()
+  to!: string;
+
+  @Column()
+  subject!: string;
+
+  @Column("text")
+  body!: string;
+
+  @Column()
+  scheduledAt!: Date;
+
+  @Column({ default: "scheduled" })
+  status!: "scheduled" | "sent" | "failed";
+
+  @CreateDateColumn()
+  createdAt!: Date;
+}
