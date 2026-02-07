@@ -1,0 +1,20 @@
+import { Router } from "express";
+import { emailQueue } from "../queue/emailQueue";
+
+const router = Router();
+
+router.post("/schedule", async (req, res) => {
+  const { emails, subject, body, startTime, sender } = req.body;
+
+  for (let i = 0; i < emails.length; i++) {
+    await emailQueue.add(
+      "send-email",
+      { to: emails[i], subject, body, sender },
+      { delay: new Date(startTime).getTime() - Date.now() + i * 2000 }
+    );
+  }
+
+  res.json({ message: "Emails scheduled successfully" });
+});
+
+export default router;
