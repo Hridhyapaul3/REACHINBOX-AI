@@ -1,0 +1,47 @@
+import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+
+const handler = NextAuth({
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+  ],
+});
+
+export { handler as GET, handler as POST };
+"use client";
+import { useSession } from "next-auth/react";
+import Header from "@/components/Header";
+
+export default function Dashboard() {
+  const { data } = useSession();
+
+  if (!data) return null;
+
+  return (
+    <div className="p-6">
+      <Header user={data.user!} />
+      <h1 className="text-xl font-semibold mt-6">Scheduled Emails</h1>
+    </div>
+  );
+}
+import { signOut } from "next-auth/react";
+
+export default function Header({ user }: any) {
+  return (
+    <div className="flex justify-between items-center">
+      <div className="flex items-center gap-3">
+        <img src={user.image} className="w-10 rounded-full" />
+        <div>
+          <p>{user.name}</p>
+          <p className="text-sm text-gray-500">{user.email}</p>
+        </div>
+      </div>
+      <button onClick={() => signOut()} className="text-red-500">
+        Logout
+      </button>
+    </div>
+  );
+}
